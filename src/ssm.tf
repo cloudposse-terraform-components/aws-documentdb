@@ -28,5 +28,5 @@ resource "aws_ssm_parameter" "master_password" {
 
   name  = "/${module.this.name}/master_password"
   type  = "SecureString"
-  value = join("", random_password.master_password.*.result)
+  value = join("", random_password.master_password[*].result)
 }
