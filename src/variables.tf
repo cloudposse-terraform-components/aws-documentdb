@@ -121,3 +121,9 @@ variable "eks_security_group_ingress_enabled" {
   description = "Whether to add the Security Group managed by the EKS cluster in the same regional stack to the ingress allowlist of the DocumentDB cluster."
   default     = true
 }
+
+variable "dns_gbl_delegated_environment_name" {
+  type        = string
+  description = "The name of the environment where global `dns_delegated` is provisioned"
+  default     = "gbl"
+}

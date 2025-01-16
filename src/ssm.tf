@@ -12,12 +12,12 @@ resource "random_password" "master_password" {
   # character length
   length = 33
 
-  special = true
+  special = false
   upper   = true
   lower   = true
   number  = true
 
-  min_special = 1
+  min_special = 0
   min_upper   = 1
   min_lower   = 1
   min_numeric = 1
