@@ -4,4 +4,4 @@ import:
   - catalog/dns-delegated
   - catalog/vpc
   - catalog/usecase/basic
-  # - catalog/usecase/acm
+  - catalog/usecase/disabled

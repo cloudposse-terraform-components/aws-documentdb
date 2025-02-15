@@ -1,10 +1,10 @@
 components:
   terraform:
-    documentdb/basic:
+    documentdb/disabled:
       metadata:
         component: target
       vars:
-        enabled: true
+        enabled: false
         cluster_size: 1
         engine: docdb
         engine_version: 3.6.0
