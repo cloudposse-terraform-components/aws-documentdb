@@ -24,7 +24,7 @@ func (s *ComponentSuite) TestBasic() {
 	const awsRegion = "us-east-2"
 
 	name := strings.ToLower(random.UniqueId())
-	userName := strings.ToLower(random.UniqueId())
+	userName := "test_user"
 	inputs := map[string]interface{}{
 		"master_username": userName,
 		"name":            name,
