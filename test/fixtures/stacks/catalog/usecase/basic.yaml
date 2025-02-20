@@ -1,0 +1,16 @@
+components:
+  terraform:
+    documentdb/basic:
+      metadata:
+        component: target
+      vars:
+        enabled: true
+        cluster_size: 1
+        engine: docdb
+        engine_version: 3.6.0
+        cluster_family: docdb3.6
+        retention_period: 35
+        instance_class: db.t3.medium
+        skip_final_snapshot: true
+        dns_gbl_delegated_environment_name: "ue2"
+        eks_security_group_ingress_enabled: false

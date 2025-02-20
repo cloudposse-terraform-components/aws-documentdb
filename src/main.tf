@@ -32,7 +32,7 @@ module "documentdb_cluster" {
   vpc_id                  = module.vpc.outputs.vpc_id
   subnet_ids              = module.vpc.outputs.private_subnet_ids
   allowed_security_groups = compact([module.eks.outputs.eks_cluster_managed_security_group_id])
-  zone_id                 = try(module.dns_delegated.outputs.default_dns_zone_id, module.dns_gbl_delegated.outputs.default_dns_zone_id)
+  zone_id                 = module.dns_delegated.outputs.default_dns_zone_id
 
   context = module.this.context
 }
