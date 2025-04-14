@@ -14,6 +14,7 @@ module "documentdb_cluster" {
   engine_version                  = var.engine_version
   deletion_protection             = var.deletion_protection_enabled
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
+  enable_performance_insights     = var.enable_performance_insights
   storage_encrypted               = var.encryption_enabled
 
   snapshot_identifier          = var.snapshot_identifier
