@@ -116,6 +116,12 @@ variable "enabled_cloudwatch_logs_exports" {
   default     = []
 }
 
+variable "enable_performance_insights" {
+  type        = bool
+  description = "Specifies whether to enable Performance Insights for the DB Instance."
+  default     = false
+}
+
 variable "eks_security_group_ingress_enabled" {
   type        = bool
   description = "Whether to add the Security Group managed by the EKS cluster in the same regional stack to the ingress allowlist of the DocumentDB cluster."
