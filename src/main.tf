@@ -1,5 +1,6 @@
 locals {
-  enabled = module.this.enabled
+  enabled         = module.this.enabled
+  create_password = local.enabled && var.master_password != null && var.master_password != "" ? 1 : 0
 }
 
 module "documentdb_cluster" {
@@ -28,7 +29,7 @@ module "documentdb_cluster" {
 
   db_port         = var.db_port
   master_username = var.master_username
-  master_password = one(random_password.master_password[*].result)
+  master_password = local.create_password ? one(random_password.master_password[*].result) : var.master_password
 
   vpc_id                  = module.vpc.outputs.vpc_id
   subnet_ids              = module.vpc.outputs.private_subnet_ids

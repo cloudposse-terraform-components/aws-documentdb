@@ -34,6 +34,12 @@ variable "master_username" {
   description = "(Required unless a snapshot_identifier is provided) Username for the master DB user"
 }
 
+variable "master_password" {
+  type        = string
+  default     = null
+  description = "(Required unless a snapshot_identifier is provided) Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file. Please refer to the DocumentDB Naming Constraints"
+}
+
 variable "retention_period" {
   type        = number
   default     = 5

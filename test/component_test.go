@@ -25,10 +25,12 @@ func (s *ComponentSuite) TestBasic() {
 	const awsRegion = "us-east-2"
 
 	name := strings.ToLower(random.UniqueId())
+	password := random.UniqueId()
 	userName := "test_user"
 
 	inputs := map[string]any{
 		"master_username": userName,
+		"master_password": password,
 		"name":            fmt.Sprintf("%s-docdb", name),
 	}
 
