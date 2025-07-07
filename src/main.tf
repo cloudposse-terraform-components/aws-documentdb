@@ -4,7 +4,7 @@ locals {
 
 module "documentdb_cluster" {
   source  = "cloudposse/documentdb-cluster/aws"
-  version = "0.27.0"
+  version = "0.30.1"
 
   instance_class                  = var.instance_class
   cluster_size                    = var.cluster_size
@@ -26,9 +26,10 @@ module "documentdb_cluster" {
   apply_immediately          = var.apply_immediately
   auto_minor_version_upgrade = var.auto_minor_version_upgrade
 
-  db_port         = var.db_port
-  master_username = join("", aws_ssm_parameter.master_username[*].value)
-  master_password = join("", aws_ssm_parameter.master_password[*].value)
+  db_port                     = var.db_port
+  master_username             = join("", aws_ssm_parameter.master_username[*].value)
+  master_password             = join("", aws_ssm_parameter.master_password[*].value)
+  manage_master_user_password = var.manage_master_user_password
 
   vpc_id                  = module.vpc.outputs.vpc_id
   subnet_ids              = module.vpc.outputs.private_subnet_ids
