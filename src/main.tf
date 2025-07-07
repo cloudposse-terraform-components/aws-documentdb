@@ -27,8 +27,8 @@ module "documentdb_cluster" {
   auto_minor_version_upgrade = var.auto_minor_version_upgrade
 
   db_port                     = var.db_port
-  master_username             = join("", aws_ssm_parameter.master_username[*].value)
-  master_password             = join("", aws_ssm_parameter.master_password[*].value)
+  master_username             = one(aws_ssm_parameter.master_username[*].value)
+  master_password             = one(aws_ssm_parameter.master_password[*].value)
   manage_master_user_password = var.manage_master_user_password
 
   vpc_id                  = module.vpc.outputs.vpc_id

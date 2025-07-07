@@ -34,16 +34,6 @@ variable "master_username" {
   description = "(Required unless a snapshot_identifier is provided) Username for the master DB user"
 }
 
-variable "manage_master_user_password" {
-  type        = bool
-  description = "Whether to manage the master user password using AWS Secrets Manager."
-  default     = null
-  validation {
-    condition     = var.manage_master_user_password == null || var.manage_master_user_password == true
-    error_message = "Error: `manage_master_user_password` must be set to `true` or `null`"
-  }
-}
-
 variable "retention_period" {
   type        = number
   default     = 5
