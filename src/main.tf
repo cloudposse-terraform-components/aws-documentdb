@@ -1,6 +1,6 @@
 locals {
   enabled         = module.this.enabled
-  create_password = local.enabled && var.master_password != null && var.master_password != ""
+  create_password = local.enabled && (var.master_password == null || var.master_password == "")
 }
 
 module "documentdb_cluster" {
