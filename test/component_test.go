@@ -19,19 +19,21 @@ type ComponentSuite struct {
 	helper.TestSuite
 }
 
+var (
+	suffix   = strings.ToLower(random.UniqueId())
+	userName = "test_user"
+	password = random.UniqueId() + random.UniqueId()[:4] // Combine two IDs to ensure at least 8 characters
+)
+
 func (s *ComponentSuite) TestBasic() {
 	const component = "documentdb/basic"
 	const stack = "default-test"
 	const awsRegion = "us-east-2"
 
-	name := strings.ToLower(random.UniqueId())
-	password := random.UniqueId() + random.UniqueId()[:4] // Combine two IDs to ensure at least 8 characters
-	userName := "test_user"
-
 	inputs := map[string]any{
 		"master_username": userName,
 		"master_password": password,
-		"name":            fmt.Sprintf("%s-docdb", name),
+		"name":            fmt.Sprintf("%s-docdb", suffix),
 	}
 
 	defer s.DestroyAtmosComponent(s.T(), component, stack, &inputs)
@@ -91,14 +93,10 @@ func (s *ComponentSuite) TestEnabledFlag() {
 	const stack = "default-test"
 	const awsRegion = "us-east-2"
 
-	name := strings.ToLower(random.UniqueId())
-	password := random.UniqueId() + random.UniqueId()[:4] // Combine two IDs to ensure at least 8 characters
-	userName := "test_user"
-
 	inputs := map[string]any{
 		"master_username": userName,
 		"master_password": password,
-		"name":            fmt.Sprintf("%s-docdb", name),
+		"name":            fmt.Sprintf("%s-docdb", suffix),
 	}
 
 	s.VerifyEnabledFlag(component, stack, &inputs)
