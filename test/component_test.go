@@ -25,7 +25,7 @@ func (s *ComponentSuite) TestBasic() {
 	const awsRegion = "us-east-2"
 
 	name := strings.ToLower(random.UniqueId())
-	password := random.UniqueId()
+	password := random.UniqueId() + random.UniqueId()[:4] // Combine two IDs to ensure at least 8 characters
 	userName := "test_user"
 
 	inputs := map[string]any{
