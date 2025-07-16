@@ -91,7 +91,17 @@ func (s *ComponentSuite) TestEnabledFlag() {
 	const stack = "default-test"
 	const awsRegion = "us-east-2"
 
-	s.VerifyEnabledFlag(component, stack, nil)
+	name := strings.ToLower(random.UniqueId())
+	password := random.UniqueId() + random.UniqueId()[:4] // Combine two IDs to ensure at least 8 characters
+	userName := "test_user"
+
+	inputs := map[string]any{
+		"master_username": userName,
+		"master_password": password,
+		"name":            fmt.Sprintf("%s-docdb", name),
+	}
+
+	s.VerifyEnabledFlag(component, stack, &inputs)
 }
 
 func TestRunSuite(t *testing.T) {
