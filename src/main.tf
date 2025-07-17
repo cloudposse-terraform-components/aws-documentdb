@@ -1,10 +1,11 @@
 locals {
-  enabled = module.this.enabled
+  enabled         = module.this.enabled
+  create_password = local.enabled && (var.master_password == null || var.master_password == "")
 }
 
 module "documentdb_cluster" {
   source  = "cloudposse/documentdb-cluster/aws"
-  version = "0.14.0"
+  version = "0.30.0"
 
   instance_class                  = var.instance_class
   cluster_size                    = var.cluster_size
@@ -14,6 +15,7 @@ module "documentdb_cluster" {
   engine_version                  = var.engine_version
   deletion_protection             = var.deletion_protection_enabled
   enabled_cloudwatch_logs_exports = var.enabled_cloudwatch_logs_exports
+  enable_performance_insights     = var.enable_performance_insights
   storage_encrypted               = var.encryption_enabled
 
   snapshot_identifier          = var.snapshot_identifier
@@ -26,8 +28,8 @@ module "documentdb_cluster" {
   auto_minor_version_upgrade = var.auto_minor_version_upgrade
 
   db_port         = var.db_port
-  master_username = join("", aws_ssm_parameter.master_username[*].value)
-  master_password = join("", aws_ssm_parameter.master_password[*].value)
+  master_username = var.master_username
+  master_password = local.create_password ? one(random_password.master_password[*].result) : var.master_password
 
   vpc_id                  = module.vpc.outputs.vpc_id
   subnet_ids              = module.vpc.outputs.private_subnet_ids

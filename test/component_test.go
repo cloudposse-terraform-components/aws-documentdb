@@ -2,6 +2,7 @@ package test
 
 import (
 	"context"
+	"fmt"
 	"strings"
 	"testing"
 
@@ -18,16 +19,21 @@ type ComponentSuite struct {
 	helper.TestSuite
 }
 
+var (
+	suffix   = strings.ToLower(random.UniqueId())
+	userName = "test_user"
+	password = random.UniqueId() + random.UniqueId()[:4] // Combine two IDs to ensure at least 8 characters
+)
+
 func (s *ComponentSuite) TestBasic() {
 	const component = "documentdb/basic"
 	const stack = "default-test"
 	const awsRegion = "us-east-2"
 
-	name := strings.ToLower(random.UniqueId())
-	userName := "test_user"
-	inputs := map[string]interface{}{
+	inputs := map[string]any{
 		"master_username": userName,
-		"name":            name,
+		"master_password": password,
+		"name":            fmt.Sprintf("%s-docdb", suffix),
 	}
 
 	defer s.DestroyAtmosComponent(s.T(), component, stack, &inputs)
@@ -55,8 +61,8 @@ func (s *ComponentSuite) TestBasic() {
 	replicasHost := atmos.Output(s.T(), options, "replicas_host")
 	assert.NotEmpty(s.T(), replicasHost)
 
-	securityGroupId := atmos.Output(s.T(), options, "security_group_id")
-	assert.NotEmpty(s.T(), securityGroupId)
+	securityGroupID := atmos.Output(s.T(), options, "security_group_id")
+	assert.NotEmpty(s.T(), securityGroupID)
 
 	securityGroupArn := atmos.Output(s.T(), options, "security_group_arn")
 	assert.NotEmpty(s.T(), securityGroupArn)
@@ -72,11 +78,11 @@ func (s *ComponentSuite) TestBasic() {
 	assert.Equal(s.T(), arn, *clusters.DBClusters[0].DBClusterArn)
 	assert.Equal(s.T(), clusterName, *clusters.DBClusters[0].DBClusterIdentifier)
 	assert.Equal(s.T(), readerEndpoint, *clusters.DBClusters[0].ReaderEndpoint)
-	assert.Equal(s.T(), securityGroupId, *clusters.DBClusters[0].VpcSecurityGroups[0].VpcSecurityGroupId)
+	assert.Equal(s.T(), securityGroupID, *clusters.DBClusters[0].VpcSecurityGroups[0].VpcSecurityGroupId)
 
 	dnsDelegatedOptions := s.GetAtmosOptions("dns-delegated", "default-test", nil)
-	delegatedDnsZoneId := atmos.Output(s.T(), dnsDelegatedOptions, "default_dns_zone_id")
-	masterEndpointDNSRecord := aws.GetRoute53Record(s.T(), delegatedDnsZoneId, masterEndpoint, "CNAME", awsRegion)
+	delegatedDNSZoneID := atmos.Output(s.T(), dnsDelegatedOptions, "default_dns_zone_id")
+	masterEndpointDNSRecord := aws.GetRoute53Record(s.T(), delegatedDNSZoneID, masterEndpoint, "CNAME", awsRegion)
 	assert.Equal(s.T(), *masterEndpointDNSRecord.ResourceRecords[0].Value, *clusters.DBClusters[0].Endpoint)
 
 	s.DriftTest(component, stack, &inputs)
@@ -87,9 +93,14 @@ func (s *ComponentSuite) TestEnabledFlag() {
 	const stack = "default-test"
 	const awsRegion = "us-east-2"
 
-	s.VerifyEnabledFlag(component, stack, nil)
-}
+	inputs := map[string]any{
+		"master_username": userName,
+		"master_password": password,
+		"name":            fmt.Sprintf("%s-docdb", suffix),
+	}
 
+	s.VerifyEnabledFlag(component, stack, &inputs)
+}
 
 func TestRunSuite(t *testing.T) {
 	suite := new(ComponentSuite)
@@ -97,8 +108,8 @@ func TestRunSuite(t *testing.T) {
 	suite.AddDependency(t, "vpc", "default-test", nil)
 
 	subdomain := strings.ToLower(random.UniqueId())
-	inputs := map[string]interface{}{
-		"zone_config": []map[string]interface{}{
+	inputs := map[string]any{
+		"zone_config": []map[string]any{
 			{
 				"subdomain": subdomain,
 				"zone_name": "components.cptest.test-automation.app",
