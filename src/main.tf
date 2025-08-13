@@ -5,7 +5,7 @@ locals {
 
 module "documentdb_cluster" {
   source  = "cloudposse/documentdb-cluster/aws"
-  version = "0.30.1"
+  version = "0.30.2"
 
   instance_class                  = var.instance_class
   cluster_size                    = var.cluster_size
