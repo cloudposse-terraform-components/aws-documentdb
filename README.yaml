@@ -30,8 +30,8 @@ usage: |-
   <!-- prettier-ignore-end -->
 
 references:
-  - name: cloudposse/terraform-aws-components (documentdb module)
-    url: https://github.com/cloudposse/terraform-aws-components/tree/main/modules/documentdb
+  - name: cloudposse-terraform-components
+    url: https://github.com/orgs/cloudposse-terraform-components/repositories
     description: Cloud Posse's upstream component
 tags:
   - component/documentdb
