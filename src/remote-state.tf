@@ -11,7 +11,7 @@ module "eks" {
   source  = "cloudposse/stack-config/yaml//modules/remote-state"
   version = "1.8.0"
 
-  component = "eks"
+  component = var.eks_component_name
 
   bypass = !var.eks_security_group_ingress_enabled
 
