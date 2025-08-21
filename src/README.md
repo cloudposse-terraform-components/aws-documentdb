@@ -8,7 +8,6 @@ tags:
 # Component: `documentdb`
 
 This component is responsible for provisioning DocumentDB clusters.
-
 ## Usage
 
 **Stack Level**: Regional
@@ -32,7 +31,10 @@ components:
 ```
 
 <!-- prettier-ignore-start -->
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- prettier-ignore-end -->
+
+
+<!-- markdownlint-disable -->
 ## Requirements
 
 | Name | Version |
@@ -127,12 +129,17 @@ components:
 | <a name="output_security_group_arn"></a> [security\_group\_arn](#output\_security\_group\_arn) | ARN of the DocumentDB cluster Security Group |
 | <a name="output_security_group_id"></a> [security\_group\_id](#output\_security\_group\_id) | ID of the DocumentDB cluster Security Group |
 | <a name="output_security_group_name"></a> [security\_group\_name](#output\_security\_group\_name) | Name of the DocumentDB cluster Security Group |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-<!-- prettier-ignore-end -->
+<!-- markdownlint-restore -->
+
+
 
 ## References
 
-- [cloudposse/terraform-aws-components](https://github.com/cloudposse/terraform-aws-components/tree/main/modules/documentdb) -
-  Cloud Posse's upstream component
+
+- [cloudposse/terraform-aws-components (documentdb module)](https://github.com/cloudposse/terraform-aws-components/tree/main/modules/documentdb) - Cloud Posse's upstream component
+
+
+
 
 [<img src="https://cloudposse.com/logo-300x69.svg" height="32" align="right"/>](https://cpco.io/homepage?utm_source=github&utm_medium=readme&utm_campaign=cloudposse-terraform-components/aws-documentdb&utm_content=)
+
