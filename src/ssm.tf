@@ -15,7 +15,7 @@ resource "random_password" "master_password" {
   special = false
   upper   = true
   lower   = true
-  number  = true
+  numeric = true
 
   min_special = 0
   min_upper   = 1
