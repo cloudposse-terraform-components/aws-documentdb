@@ -1,6 +1,11 @@
 locals {
   enabled         = module.this.enabled
-  create_password = local.enabled && (var.master_password == null || var.master_password == "")
+  create_password = local.enabled && var.master_password == null && var.manage_master_user_password == null
+  # 1. If manage_master_user_password is not null, AWS manages the password (master_password must be null)
+  # 2. If master_password is provided, that value is used (manage_master_user_password must be null)
+  # 3. If both are null, the module creates a random password
+  master_password = local.create_password ? one(random_password.master_password[*].result) : var.master_password
+
 }
 
 module "documentdb_cluster" {
@@ -27,9 +32,10 @@ module "documentdb_cluster" {
   apply_immediately          = var.apply_immediately
   auto_minor_version_upgrade = var.auto_minor_version_upgrade
 
-  db_port         = var.db_port
-  master_username = var.master_username
-  master_password = local.create_password ? one(random_password.master_password[*].result) : var.master_password
+  db_port                     = var.db_port
+  master_username             = var.master_username
+  master_password             = var.manage_master_user_password != null ? null : local.master_password
+  manage_master_user_password = var.manage_master_user_password
 
   vpc_id                  = module.vpc.outputs.vpc_id
   subnet_ids              = module.vpc.outputs.private_subnet_ids
